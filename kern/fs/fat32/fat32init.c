@@ -197,12 +197,13 @@ static void init_fs_other() {
 
 	// 两个部分的sh脚本
 	extern const unsigned char bin2c_iperf_testcode_sh[637];
-	extern const unsigned char bin2c_unixbench_testcode_sh[4556];
+	// extern const unsigned char bin2c_unixbench_testcode_sh[4556];
 	extern const unsigned char bin2c_sort_src[8546];
 	extern const unsigned char bin2c_lmbench_testcode_sh[1170];
 	extern const unsigned char binary_netperf_part[560];
+	extern const unsigned char binary_unixbench_part[];
 	create_chardev_file("/iperf_testcode_part.sh", (char *)bin2c_iperf_testcode_sh, NULL, NULL);
-	create_chardev_file("/unixbench_testcode_part.sh", (char *)bin2c_unixbench_testcode_sh, NULL, NULL);
+	create_chardev_file("/unixbench_testcode_part.sh", (char *)binary_unixbench_part, NULL, NULL);
 	create_chardev_file("/netperf_testcode_part.sh", (char *)binary_netperf_part, NULL, NULL);
 
 
