@@ -26,6 +26,7 @@ endif
 
 # 编译 C 语言时的参数
 CFLAGS = -Wall -Werror -fno-omit-frame-pointer -gdwarf-2
+CFLAGS += -mabi=lp64d -march=rv64imafdc
 CFLAGS += -MD
 CFLAGS += -mcmodel=medany
 CFLAGS += -ffreestanding -fno-common -nostdlib -mno-relax
