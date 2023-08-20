@@ -8,7 +8,7 @@
 #include <param.h>
 
 #ifdef FEATURE_LESS_MEMORY
-#define BUF_SUM_SIZE (64 * 1024 * 1024) // 64MB
+#define BUF_SUM_SIZE (16 * 1024 * 1024) // 16MB
 #else
 #define BUF_SUM_SIZE (256 * 1024 * 1024) // 256MB
 #endif

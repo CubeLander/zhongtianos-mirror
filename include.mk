@@ -42,16 +42,22 @@ endif
 # 系统编译时参数
 ifneq ($(MODE), board)
 CFLAGS += -DQEMU
+ifeq ($(MACHINE), sifive_u)
 NCPU := 3
-else
+else # virt
+NCPU := 2
+endif
+else # Board
 NCPU := 5
 endif
 
-# 机器类型：
+# 机器类型
 ifeq ($(MACHINE), sifive_u)
 CFLAGS += -DSIFIVE
+QEMU_MEM := 1G
 else
 CFLAGS += -DVIRT
+QEMU_MEM := 128M
 endif
 
 
@@ -73,7 +79,7 @@ else
 endif
 
 # QEMU 启动参数
-QEMUOPTS = -machine $(MACHINE) -bios default -kernel $(KERNEL_ELF) -m 1G -smp $(NCPU) -nographic
+QEMUOPTS = -machine $(MACHINE) -bios default -kernel $(KERNEL_ELF) -m $(QEMU_MEM) -smp $(NCPU) -nographic
 
 ifeq ($(MACHINE),virt)
 	QEMUOPTS += -drive file=fs.img,if=none,format=raw,id=x0
