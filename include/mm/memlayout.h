@@ -49,7 +49,7 @@
 #define KSTACKSIZE (4 * PAGE_SIZE)
 
 // 内核页表中，线程的内核栈部分
-#define TD_KSTACK_PAGE_NUM 4				// 内核栈占用的页数
+#define TD_KSTACK_PAGE_NUM 3				// 内核栈占用的页数
 #define TD_KSTACK_SIZE (TD_KSTACK_PAGE_NUM * PAGE_SIZE) // 内核栈占用的大小
 #define TD_KSTACK(p) (STACKTOP - ((p) + 1) * (TD_KSTACK_SIZE + PAGE_SIZE))
 

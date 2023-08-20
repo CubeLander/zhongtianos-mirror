@@ -22,6 +22,6 @@
 // FarmOS 参数
 #define NTHREAD NPROC       // FarmOS 支持的最大线程数
 #define NPROCSIGNALS 128     // FarmOS 支持的最大信号数
-#define NSIGEVENTS 512      // FarmOS 支持的最大信号事件数
+#define NSIGEVENTS 256      // FarmOS 支持的最大信号事件数
 
 #endif

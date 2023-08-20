@@ -7,7 +7,7 @@
 #include <mm/memlayout.h>
 #include <types.h>
 
-#define MAX_NAME_LEN 128
+#define MAX_NAME_LEN 64
 #define DIRENT_HOLDER_CNT 64
 
 typedef struct FileSystem FileSystem;
