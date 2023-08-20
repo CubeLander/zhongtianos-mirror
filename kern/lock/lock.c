@@ -30,13 +30,9 @@ inline void print_lock_info() {
 }
 
 inline void lo_critical_leave(mutex_t *m) {
-	if (intr_get() != 0) {
-		error("mtx_leave: interrupts enabled");
-	}
+	assert(intr_get() == 0);
 	cpu_t *cpu = cpu_this();
-	if (cpu->cpu_lk_depth == 0) {
-		error("mtx_leave: mutex not held");
-	}
+	assert(cpu->cpu_lk_depth > 0);
 #ifdef LOCK_DEPTH_DEBUG
 	// 记录解的锁的指针
 	if (cpu->cpu_lks[cpu->cpu_lk_depth - 1] == m) {
@@ -64,14 +60,18 @@ inline void lo_critical_leave(mutex_t *m) {
 
 // 原子操作接口
 inline void lo_acquire(lock_object_t *lo) {
+#ifdef LOCK_DEPTH_DEBUG
 	u64 cnt = 0;
+#endif
 	assert(!lo_acquired(lo));
 	while (atomic_lock(&lo->lo_locked) != 0) {
+#ifdef LOCK_DEPTH_DEBUG
 		cnt += 1;
 		// 在自旋锁长时间获取不到时，打印信息
 		if (cnt >= THRESHOLD_LOCK && cnt % THRESHOLD_LOCK == 0) {
 			log(9999, "wait too long of spinlock[%s]\n", lo->lo_name);
 		}
+#endif
 	}
 	atomic_barrier();
 	lo->lo_data = cpu_this();
@@ -95,9 +95,6 @@ inline void lo_release(lock_object_t *lo) {
 }
 
 inline bool lo_acquired(lock_object_t *lo) {
-	if ((u64)lo <= 0x80000000ul) {
-		asm volatile("nop");
-	}
 	assert(intr_get() == 0);
 	return lo->lo_locked && lo->lo_data == cpu_this();
 }
