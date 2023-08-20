@@ -65,14 +65,6 @@ void pmmInit() {
 	bufferData = pmInitPush(freemem, BGROUP_NUM * sizeof(BufferDataGroup), &freemem);
 	extern void *bufferGroups;
 	bufferGroups = pmInitPush(freemem, BGROUP_NUM * sizeof(BufferGroup), &freemem);
-	extern thread_t *threads;
-	threads = pmInitPush(freemem, NTHREAD * sizeof(thread_t), &freemem);
-	extern proc_t *procs;
-	procs = pmInitPush(freemem, NPROC * sizeof(proc_t), &freemem);
-	extern void *sigactions;
-	sigactions = pmInitPush(freemem, NPROCSIGNALS * NPROC * sizeof(sigaction_t), &freemem);
-	extern void *sigevents;
-	sigevents = pmInitPush(freemem, NSIGEVENTS * sizeof(sigevent_t), &freemem);
 	extern Dirent *dirents;
 	dirents = pmInitPush(freemem, MAX_DIRENT * sizeof(Dirent), &freemem);
 
