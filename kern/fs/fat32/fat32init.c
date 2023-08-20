@@ -109,7 +109,9 @@ void init_root_fs() {
 
 static void create_bind_device(const char *path, struct FileDev *dev, u16 type) {
 	Dirent *file1;
-	createFile(fatFs->root, (char *)path, &file1);
+	if (getFile(fatFs->root, (char *)path, &file1) < 0) {
+		createFile(fatFs->root, (char *)path, &file1);
+	}
 	file1->dev = dev;
 	file1->type = type;
 	file_close(file1);
