@@ -1,6 +1,7 @@
 #include <dev/dtb.h>
 #include <dev/interface.h>
 #include <dev/plic.h>
+#include <dev/uart.h>
 #include <dev/rtc.h>
 #include <dev/sbi.h>
 #include <dev/timer.h>
@@ -39,8 +40,7 @@
 
 // 用于记录当前哪个核已被启动
 volatile static int hart_started[NCPU];
-// 用于在启动阶段标识一个核是否是第一个被启动的核
-volatile static int hart_first = 1;
+
 // 用于阻塞其他核，直到第一个核完成初始化
 volatile static int kern_inited = 0;
 
@@ -169,13 +169,24 @@ static inline void logo() {
 }
 
 // start() jumps here in supervisor mode on all CPUs.
+// 用于只执行一遍全局初始化代码
+volatile static int hart_first = 1;
 void main() {
 	if (hart_first == 1) {
 		hart_first = 0;
 		__sync_synchronize();
+		// 乱序执行屏障，只有它前面的指令全部执行完才能往下走
 
-		// 初始化串口
+		
 		cons_init();
+		// 初始化串口(其实已经由openSBI初始化了，这里只是为了测试串口输出）
+
+		uart_init();
+		// uart的初始化也是由opensbi做好了的
+		
+		printInit();
+		// 初始化print临界区锁
+
 		logo();
 		printf("FarmOS kernel is booting (on hart %d) total: %d\n", cpu_this_id(), NCPU);
 

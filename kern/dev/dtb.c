@@ -84,7 +84,7 @@ static inline uint64 readBigEndian64(void *p) {
  * @returns 设备树节点node的尾地址
  */
 static char strBuf[128];
-void *parseFdtNode(struct FDTHeader *fdtHeader, void *node, char *parent) {
+static void *parseFdtNode(struct FDTHeader *fdtHeader, void *node, char *parent) {
 	char *node_name;
 	while (readBigEndian32(node) == FDT_NOP) {
 		node += 4;
@@ -165,6 +165,7 @@ void *parseFdtNode(struct FDTHeader *fdtHeader, void *node, char *parent) {
 void parseDtb() {
 	extern uint64 dtbEntry;
 	log(LEVEL_GLOBAL, "Find dtbEntry address at 0x%08lx\n", dtbEntry);
+
 	struct FDTHeader *fdt_h = (struct FDTHeader *)dtbEntry;
 	parserFdtHeader(fdt_h);
 
@@ -173,6 +174,5 @@ void parseDtb() {
 		node = parseFdtNode(fdt_h, node, "root");
 	} while (readBigEndian32(node) != FDT_END);
 
-	log(LEVEL_GLOBAL, "Memory Start Addr = 0x%016lx, size = %d MB\n", memInfo.start,
-	    memInfo.size / 1024 / 1024);
+	log(LEVEL_GLOBAL, "Memory Start Addr = 0x%016lx, size = %d MB\n", memInfo.start, memInfo.size / 1024 / 1024);
 }

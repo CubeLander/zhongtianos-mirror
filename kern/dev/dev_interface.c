@@ -22,8 +22,8 @@ void cons_init() {
 	SBI_PUTCHAR('o');
 	SBI_PUTCHAR('k');
 	SBI_PUTCHAR('\n');
-	printInit();
-	uart_init();
+
+
 }
 
 void dev_init() {

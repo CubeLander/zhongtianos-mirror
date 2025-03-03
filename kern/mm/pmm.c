@@ -20,10 +20,11 @@ struct Page {
 	LIST_ENTRY(Page) link;
 };
 
-u64 pageleft = 0;
-u64 npage = 0;
-Page *pages = NULL;
-PageList pageFreeList;
+u64 pageleft = 0;	// 在sysinfo中使用，查看剩余的内存大小
+
+static u64 npage = 0;
+static Page *pages = NULL;
+static PageList pageFreeList;
 
 extern struct MemInfo memInfo;
 extern char end[];

@@ -6,6 +6,7 @@
 
 void main();
 
+// 提供早期引导阶段的异常入口占位符，防止异常跳到不可执行的地址
 void start_trap() {
 	while (1);
 }
