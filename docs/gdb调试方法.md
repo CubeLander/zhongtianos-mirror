@@ -5,7 +5,7 @@
 ```shell
 make qemu-gdb
 # 此时会显示gdb运行在哪个端口，一般为localhost:26000，接着，开一个新的窗口，运行gdb连接此调试环境
-riscv64-elf-gdb <kernel文件> # 用于加载kernel文件中的符号
+riscv64-unknown-elf-gdb <kernel文件> # 用于加载kernel文件中的符号
 > target remote localhost:26000
 > info registers
 ```
